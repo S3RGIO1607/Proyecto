@@ -1,7 +1,8 @@
 # PROYECTO DE TECNOLOGO ANALISIS Y DESARROLLO DE SOFTWARE
 <p> Presentado por <p> 
 
- - Sergio Andres Torres Sandoval
+ - Sergio Torres
  - Juan Camilo Torres
  - Justin David Avila
- - Diego Alexander Riaño Numpaque
+ - Diego Riaño
+ - Camilo Mosquera
