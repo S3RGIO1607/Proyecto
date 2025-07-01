@@ -246,5 +246,95 @@ BEGIN
   END IF;
 END$$
 
-/*TRIGGER 9 () ------------------------------------------------------------------------------*/
+/* TRIGGER 9 (Validar que el valor de la factura sea mayor a 0) */
+CREATE TRIGGER trg_factura_valor_mayor_cero
+BEFORE INSERT ON factura
+FOR EACH ROW
+BEGIN
+    IF NEW.valor_total <= 0 THEN
+        SIGNAL SQLSTATE '45000' 
+        SET MESSAGE_TEXT = 'El valor total de la factura debe ser mayor a cero';
+    END IF;
+END $$
 
+/* TRIGGER 10 (Validar que la factura coincida con la suma de productos y servicios) */
+CREATE TRIGGER trg_factura_valida_total_correcto
+BEFORE INSERT ON factura
+FOR EACH ROW
+BEGIN
+    DECLARE suma_productos BIGINT DEFAULT 0;
+    DECLARE suma_servicios BIGINT DEFAULT 0;
+    DECLARE suma_total BIGINT DEFAULT 0;
+    DECLARE mensaje_error VARCHAR(255);
+
+    -- Sumar productos si existen
+    SELECT IFNULL(SUM(valor_producto_alquiler), 0)
+    INTO suma_productos
+    FROM detalles_contiene
+    WHERE id_alquiler = NEW.id_alquiler;
+
+    -- Sumar servicios si existen
+    SELECT IFNULL(SUM(valor_servicio), 0)
+    INTO suma_servicios
+    FROM datelle_servicio
+    WHERE id_alquiler = NEW.id_alquiler;
+
+    -- Total esperado
+    SET suma_total = suma_productos + suma_servicios;
+
+    -- Validar que el valor_total ingresado coincida
+    IF NEW.valor_total != suma_total THEN
+        SET mensaje_error = CONCAT('Error: valor ingresado (', NEW.valor_total, ') no coincide con suma real (', suma_total, ')');
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = mensaje_error;
+    END IF;
+END$$
+DELIMITER $$
+CREATE PROCEDURE mostrar_vistas_alquileres()
+BEGIN
+    SELECT 
+        a.id_alquiler,
+        a.fecha_evento, 
+        a.valor_producto, 
+        a.abono,
+        a.fecha_devolucion,
+        u.id_usuario,
+        u.nombre AS nombre_usuario  -- Puedes agregar más campos si necesitas
+    FROM alquiler a
+    JOIN usuario u ON a.id_usuario = u.id_usuario;
+END$$
+
+
+/*llamados de mas script*/
+CALL mostrar_vistas_alquileres();
+
+
+
+
+
+
+
+/* creacion de roles*/
+create user 'juan'@'localhost' identified by '123456';
+create user 'pepe'@'localhost' identified by '789456';
+create user 'andres'@'localhost' identified by '321654';
+
+grant all privileges on *.*  to 'juan'@'localhost';
+
+flush privileges;
+
+mysql -h localhost -u pepe -p
+mysql -h localhost -u andres -p
+
+
+/* creacion de roles*/
+create user 'alberto'@'localhost' identified by '980098';
+create user 'arturo'@'localhost' identified by '445674';
+create user 'arnulfo'@'localhost' identified by '232343';
+
+grant all privileges on *.*  to 'arnulfo'@'localhost';
+
+flush privileges;
+
+mysql -h localhost -u alberto -p
+mysql -h localhost -u arnulfo -p
