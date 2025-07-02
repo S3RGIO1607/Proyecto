@@ -1,6 +1,5 @@
 create database Proyecto;
 use Proyecto;
-drop database Proyecto;
 
 /*TABLA DE USUARIO ------------------------------------------------------------------------------*/
 create table usuario(
@@ -152,6 +151,165 @@ values (num_doc, nombre, correo, contrasena, direccion, telefono, nivel_educativ
 
 Call Registrar_Usuarios (1016020993, 'Sergio Torres', 'sergio_torres@gmail.com', 'S12345', 'Calle 1 # 2-3', '3118601464', 'Tecnico', 'María Gómez', 3101234567, 'Compensar', 'Administrador', '1');
 
+
+/*PROCEDIMIENTO DE REGISTRO PRODUCTO ------------------------------------------------------------------------------*/
+Create procedure Registrar_Producto (
+In nombre_producto varchar(255),
+In descripcion varchar(255),
+In precio_compra bigint unsigned,
+In precio_alquiler bigint unsigned,
+In imagen longblob,
+In id_usuario tinyint unsigned
+)
+insert into producto (nombre_producto, descripcion, precio_compra, precio_alquiler, imagen, id_usuario)
+values (nombre_producto, descripcion, precio_compra, precio_alquiler, imagen, id_usuario);
+
+
+/*VISTA DE CONSULTA GENERAL PRODUCTO --------------------------------------------------------------------*/
+CREATE VIEW Consulta_Producto AS
+	SELECT id_producto, 
+		   nombre_producto, 
+           descripcion, 
+           precio_compra,
+           precio_alquiler, 
+           imagen
+	FROM producto ORDER BY id_producto ASC;
+    
+/*PROCEDIMIENTO CONSULTA GENERAL USUARIO --------------------------------------------------------------------*/
+Create procedure ConsultaP
+(
+
+)
+SELECT * FROM Consulta_Producto;
+
+/*PROCEDIMIENTO DE CONSULTA ESPECIFICA USUARIO --------------------------------------------------------------------*/
+DELIMITER $$
+Create procedure Consulta_Especifica
+(
+IN num_doc bigint unsigned
+)
+BEGIN
+SELECT * FROM usuario WHERE numero_documento = num_doc;
+END$$
+
+
+/*VISTA DE CONSULTA GENERAL USUARIO --------------------------------------------------------------------*/
+CREATE VIEW Consulta_General AS
+	SELECT id_usuario, 
+		   numero_documento, 
+           nombre, 
+           telefono,
+           correo, 
+           direccion, 
+           tipo_usuario
+	FROM usuario WHERE estado = 'A' ORDER BY id_usuario ASC;
+    
+/*PROCEDIMIENTO CONSULTA GENERAL USUARIO --------------------------------------------------------------------*/
+Create procedure ConsultaG
+(
+
+)
+SELECT * FROM Consulta_General;
+
+
+/*VISTA CGENERAL ALQUILERES ------------------------------------------------------------------------------*/
+Create view C_Alquiler AS
+	Select a.id_alquiler, 
+		   a.fecha_evento, 
+           a.valor_producto, 
+           a.abono, 
+           a.fecha_devolucion,
+           u.id_usuario,
+           u.nombre,
+           u.telefono
+	from alquiler AS a join usuario AS u on u.id_usuario = a.id_usuario;
+
+/*PROCEDIMIENTO CGENERAL ALQUILERES ------------------------------------------------------------------------------*/
+CREATE PROCEDURE Mostrar_Vista_Alquiler
+(
+
+)
+Select*from C_Alquiler;
+
+
+/*VISTA FACTURAS COMPLETAS ------------------------------------------------------------------------------*/
+CREATE VIEW Factura_Completa AS
+	SELECT f.id_factura, 
+		   f.fecha_factura, 
+           f.valor_total, 
+           f.iva, 
+           f.metodo_pago,
+           u.id_usuario,
+           u.nombre,
+           a.fecha_evento
+	FROM factura AS f JOIN usuario AS u ON u.id_usuario = f.id_usuario
+    LEFT JOIN alquiler AS a ON a.id_alquiler = f.id_alquiler;
+
+/*PROCEDIMIENTO FACTURAS COMPLETAS ------------------------------------------------------------------------------*/
+CREATE PROCEDURE Mostrar_Factura
+(
+
+)
+SELECT*FROM Factura_Completa;
+
+
+/*VISTA ADMINISTRADOR ------------------------------------------------------------------------------*/
+CREATE VIEW admin_resumen AS
+SELECT 
+    u.id_usuario,
+    u.nombre                   AS usuario,
+    u.correo,
+    u.tipo_usuario,
+    a.id_alquiler,
+    a.fecha_evento,
+    a.valor_producto,
+    f.id_factura,
+    f.valor_total,
+    f.metodo_pago,
+    p.id_producto,
+    p.nombre_producto,
+    p.precio_alquiler
+FROM usuario            AS u
+LEFT JOIN alquiler            AS a  ON u.id_usuario = a.id_usuario
+LEFT JOIN factura             AS f  ON a.id_alquiler = f.id_alquiler
+LEFT JOIN detalles_contiene   AS dc ON a.id_alquiler = dc.id_alquiler
+LEFT JOIN producto            AS p  ON dc.id_producto = p.id_producto;
+
+/*PROCEDIMIENTO VISTA ADMIN ------------------------------------------------------------------------------*/
+CREATE PROCEDURE Mostrar_Vista_Admin
+(
+
+)
+SELECT*FROM admin_resumen;
+
+
+CREATE VIEW sup_bodega_resumen AS
+SELECT 
+    u.id_usuario,
+    u.nombre                    AS supervisor,
+    p.id_producto,
+    p.nombre_producto,
+    p.descripcion,
+    p.precio_alquiler,
+    a.id_alquiler,
+    a.fecha_evento,
+    dc.cantidad_producto,
+    dc.valor_producto_alquiler
+FROM usuario             AS u
+JOIN producto            AS p  ON u.id_usuario = p.id_usuario
+LEFT JOIN detalles_contiene dc ON p.id_producto = dc.id_producto
+LEFT JOIN alquiler       AS a  ON dc.id_alquiler = a.id_alquiler
+WHERE u.tipo_usuario = 'Sup_Bodega';
+
+/*PROCEDIMIENTO VISTA SUP_BODEGA ------------------------------------------------------------------------------*/
+CREATE PROCEDURE Mostrar_Vista_Bodega
+(
+
+)
+SELECT*FROM sup_bodega_resumen;
+
+
+
 /*TRIGGERS ------------------------------------------------------------------------------*/
 DELIMITER $$
 
@@ -276,7 +434,7 @@ BEGIN
     -- Sumar servicios si existen
     SELECT IFNULL(SUM(valor_servicio), 0)
     INTO suma_servicios
-    FROM datelle_servicio
+    FROM detelle_servicio
     WHERE id_alquiler = NEW.id_alquiler;
 
     -- Total esperado
@@ -289,24 +447,7 @@ BEGIN
         SET MESSAGE_TEXT = mensaje_error;
     END IF;
 END$$
-DELIMITER $$
-CREATE PROCEDURE mostrar_vistas_alquileres()
-BEGIN
-    SELECT 
-        a.id_alquiler,
-        a.fecha_evento, 
-        a.valor_producto, 
-        a.abono,
-        a.fecha_devolucion,
-        u.id_usuario,
-        u.nombre AS nombre_usuario  -- Puedes agregar más campos si necesitas
-    FROM alquiler a
-    JOIN usuario u ON a.id_usuario = u.id_usuario;
-END$$
 
-
-/*llamados de mas script*/
-CALL mostrar_vistas_alquileres();
 
 
 
