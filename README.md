@@ -7,4 +7,7 @@
  - Diego Riaño
  - Camilo Mosquera
    
-![Imagen logo corporativo de la empresa.](C:\Users\camil\OneDrive\Documentos\SOFTWARE 2023\Proyecto\img)
+Proyecto/
+├── index.html
+└── img/
+    └── logo.png
