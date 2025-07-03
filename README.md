@@ -6,8 +6,4 @@
  - Justin David Avila
  - Diego Riaño
  - Camilo Mosquera
-   
-Proyecto/
-├── index.html
-└── img/
-    └── logo.png
+<h2>Casa de eventos AARON</h2>
