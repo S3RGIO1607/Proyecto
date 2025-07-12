@@ -137,62 +137,105 @@
                 </li>
             </ul>
         </nav>
-<section class="dashboard">
-    <h2>Panel de Control</h2>
-    <div class="dashboard-cards">
-        <div class="card blue">
-            <h3>Alquileres (Mes)</h3>
-            <p>15</p>
-        </div>
-        <div class="card green">
-            <h3>Nuevos Clientes (Mes)</h3>
-            <p>50</p>
-        </div>
-        <div class="card teal">
-            <h3>Pedidos Pendientes</h3>
-            <p>8</p>
-        </div>
-        <div class="card orange">
-            <h3>Usuarios Registrados</h3>
-            <p>12</p>
-        </div>
-    </div>
-
-    <div class="table-section">
-        <h3>Últimos alquileres</h3>
-        <table class="dashboard-table">
-            <thead>
-                <tr>
-                    <th>Fecha</th>
-                    <th>Cliente</th>
-                    <th>Producto</th>
-                    <th>Estado</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>24/06/2025</td>
-                    <td>Juan Pérez</td>
-                    <td>Pintura Roja</td>
-                    <td>Confirmado</td>
-                </tr>
-                <tr>
-                    <td>24/06/2025</td>
-                    <td>María López</td>
-                    <td>Brochas</td>
-                    <td>Pendiente</td>
-                </tr>
-                <tr>
-                    <td>25/06/2025</td>
-                    <td>Carlos Ruiz</td>
-                    <td>Pintura Azul</td>
-                    <td>Enviado</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</section>
-
+        
+        <body class="Tab_Consulta">
+            <div class="container_TC">
+                <h1 class="h1_TC">Consulta de Servicios</h1>
+                
+                <div class="search-box_TC">
+                    <div class="input-group mb-3">
+                        <input type="text" id="searchInput" class="form-control" placeholder="Buscar en la tabla...">
+                        <button class="btn btn-outline-secondary" type="button" onclick="searchTable()">Buscar</button>
+                    </div>
+                </div>
+        
+                <div class="table-container_TC">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover table-bordered">
+                            <thead class="table-header_TC">
+                                <tr>
+                                    <th>ID Servicio</th>
+                                    <th>Nombre</th>
+                                    <th>Descripción</th>
+                                    <th>Precio</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="rentalTable">
+                                <!-- Example data rows - in a real app these would be populated from a database -->
+                                <tr>
+                                    <td>1</td>
+                                    <td>Servicio de Catering</td>
+                                    <td>Servicio de catering para eventos</td>
+                                    <td>2500000</td>
+                                    <td class="action-buttons">
+                                        <button class="btn btn-sm btn-primary">Ver</button>
+                                        <button class="btn btn-sm btn-warning">Editar</button>
+                                        <button class="btn btn-sm btn-danger">Eliminar</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>Servicio de Decoración</td>
+                                    <td>Decoración para bodas y eventos</td>
+                                    <td>3500000</td>
+                                    <td class="action-buttons">
+                                        <button class="btn btn-sm btn-primary">Ver</button>
+                                        <button class="btn btn-sm btn-warning">Editar</button>
+                                        <button class="btn btn-sm btn-danger">Eliminar</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>Servicio de Fotografía</td>
+                                    <td>Fotografía profesional para eventos</td>
+                                    <td>4500000</td>
+                                    <td class="action-buttons">
+                                        <button class="btn btn-sm btn-primary">Ver</button>
+                                        <button class="btn btn-sm btn-warning">Editar</button>
+                                        <button class="btn btn-sm btn-danger">Eliminar</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+        
+            <!-- Bootstrap JS Bundle with Popper -->
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+            
+            <script>
+                function searchTable() {
+                    const input = document.getElementById("searchInput");
+                    const filter = input.value.toUpperCase();
+                    const table = document.getElementById("rentalTable");
+                    const tr = table.getElementsByTagName("tr");
+        
+                    for (let i = 0; i < tr.length; i++) {
+                        let found = false;
+                        const td = tr[i].getElementsByTagName("td");
+                        
+                        for (let j = 0; j < td.length - 1; j++) { // Exclude actions column from search
+                            if (td[j]) {
+                                const txtValue = td[j].textContent || td[j].innerText;
+                                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                                    found = true;
+                                    break;
+                                }
+                            }
+                        }
+                        
+                        tr[i].style.display = found ? "" : "none";
+                    }
+                }
+        
+                function changeRowsPerPage() {
+                    const select = document.getElementById("rowsPerPage");
+                    console.log(`Mostrar ${select.value} filas por página`);
+                    // In a real app, you would implement pagination logic here
+                }
+            </script>
+        
+        </body>
     </div>
 </body>
-</html>
+</html>        

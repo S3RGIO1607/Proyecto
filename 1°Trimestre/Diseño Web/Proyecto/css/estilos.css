@@ -30,7 +30,7 @@ nav.b {
     background: #000000; 
     padding: 35px 0; /* Espaciado superior e inferior */
     flex-shrink: 0; /* Evita que se reduzca el tamaño */
-    height: 108%; /* Altura del menú lateral */
+    height: 152%; /* Altura del menú lateral */
     position: relative; /* Posicionamiento relativo */
     overflow-y: auto; /* Habilitar scroll vertical */
 }
@@ -375,7 +375,7 @@ button:hover {
     background-color: #ffffff;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     width: 100%;
-    height: 105%;
+    height: 100%;
 }
 
 .RU {
@@ -390,3 +390,66 @@ button:hover {
 .btn-primary {
     width: 100%;
 }
+
+/* Consulta De Alquiler */
+.container_TC {
+    margin-top: 50px;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    padding: 20px;
+    background-color: #ffffff;
+    box-shadow: 0 0 10px rgba(0, 0, 0);
+    width: 100%;
+    height: 100%;
+
+}
+
+.Tab_Consulta {
+    background-color: #f8f9fa;
+    width: 100%;
+}
+
+.table-container_TC {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0,0,0);
+    padding: 20px;
+    margin-top: 30px;
+
+}
+
+.table-header_TC {
+
+    width: 100%;
+    height: 100%;
+}
+
+.search-box_TC {
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.h1_TC {
+    color: #343a40;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.action-buttons .btn {
+    margin: 0 3px;
+}
+
+table {
+    border-collapse: collapse; /* Para unir las líneas de las celdas */
+    width: 100%;
+  }
+  
+  table, th, td {
+    border: 2px solid #541E12; /* Color verde para las líneas */
+  }
+  
+  th, td {
+    padding: 10px;
+    text-align: left;
+  }
+  
