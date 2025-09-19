@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import './iniciosesion.css';
+@import './inicioestilos.css';
+@import './nosotros.css';
+@import './paquetes.css';
+@import './estilos.css'

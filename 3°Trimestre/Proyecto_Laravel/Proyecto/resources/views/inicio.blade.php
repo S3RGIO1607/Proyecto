@@ -1,0 +1,39 @@
+@vite(['resources/css/app.css', 'resources/css/iniciosesion.css', 'resources/js/app.js'])
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Iniciar Sesión - Distribuidora Ideal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="fondo"></div>
+
+  <main class="login-container">
+    <section class="login-card">
+      <div class="div_inicio">
+        <h2>Iniciar Sesión</h2>
+        <form action="#" method="post">
+          <div class="input-group">
+            <input type="number" name="documento" required placeholder="Usuario" oninput="this.value = this.value.slice(0, 15)">
+          </div>
+          <div class="input-group">
+            <input type="password" name="contrasena" required placeholder="Contraseña">
+          </div>
+          <input type="submit" name="boton" value="Entrar">
+          <a href="">¿Olvidó su contraseña?</a>
+        </form>
+      </div>
+
+      <div class="div_registrarse">
+        <h1>¡Hola!</h1>
+        <p>¿Aún no tienes una cuenta?</p>
+        <button onclick="location.href='../vista/500.html'">Registrarse</button>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
