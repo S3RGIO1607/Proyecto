@@ -1,0 +1,48 @@
+@vite(['resources/css/app.css', 'resources/css/iniciosesion.css', 'resources/js/app.js'])
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Registro - Distribuidora Ideal</title>
+  <link rel="icon" href="" type="image/png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="fondo"></div>
+  <main class="login-container">
+    <section class="login-card">
+      <div class="div_inicio">
+        <h2>Regístrate</h2>
+        <form action="#" method="post">
+          <div class="input-group">
+            <input type="number" name="numero_documento" required placeholder="Número de documento" min="10000" max="9999999999">
+          </div>
+          <div class="input-group">
+            <input type="text" name="nombre" required placeholder="Nombre" min="100">
+          </div>
+          <div class="input-group">
+            <input type="email" name="correo" required placeholder="Correo">
+          </div>
+          <div class="input-group">
+            <input type="password" name="contrasena" required placeholder="Contraseña">
+          </div>
+          <div class="input-group">
+            <input type="text" name="direccion" required placeholder="Dirección">
+          </div>
+          <div class="input-group">
+            <input type="number" name="telefono" required placeholder="Teléfono" min="10000" max="9999999999">
+          </div>
+          <input type="submit" name="boton" value="Registrar">
+          <p>¿Ya tienes cuenta?</p>
+            <a class="but" href="/inicio">Inicia sesión aquí</a>
+      
+        </form>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

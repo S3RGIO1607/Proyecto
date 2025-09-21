@@ -6,7 +6,7 @@
 body {
   font-family: 'Poppins', sans-serif;
   background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
-              url('{{ asset("img/fondo_inicio.jfif") }}') no-repeat center center;
+              url("..//..//public/img/fondo_inicio.jfif") no-repeat center center;
   background-size: 100% auto;
   display: flex;
   justify-content: center;

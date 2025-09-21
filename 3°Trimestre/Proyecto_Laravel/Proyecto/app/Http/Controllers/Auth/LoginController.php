@@ -3,38 +3,90 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Login Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles authenticating users for the application and
-    | redirecting them to your home screen. The controller uses a trait
-    | to conveniently provide its functionality to your applications.
-    |
-    */
-
-    use AuthenticatesUsers;
 
     /**
-     * Where to redirect users after login.
-     *
-     * @var string
+     * A dónde redirigir después de login exitoso
      */
-    protected $redirectTo = '/home';
+    protected function redirectTo()
+{
+    $user = auth()->user();
+
+    switch ($user->tipo_usuario) {
+        case 'Administrador':
+            return route('perfil'); // 👈 aquí va el perfil
+        case 'Sup_Bodega':
+            return route('sup-bodega');
+        case 'Gerente':
+            return route('gerente');
+        case 'Cliente':
+            return route('cliente');
+        default:
+            return '/';
+    }
+}
 
     /**
-     * Create a new controller instance.
-     *
-     * @return void
+     * Campo personalizado para login (por defecto es email)
+     */
+    public function username()
+    {
+        return 'numero_documento';
+    }
+
+    /**
+     * Constructor
      */
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
-        $this->middleware('auth')->only('logout');
+    }
+
+    /**
+     * Mostrar formulario de login
+     */
+    public function showLoginForm()
+    {
+        return view('inicio'); // 👈 aquí va tu inicio.blade.php
+    }
+
+    /**
+     * Procesar login
+     */
+    public function login(Request $request)
+    {
+        // Validación de campos
+        $request->validate([
+            'numero_documento' => 'required',
+            'password' => 'required',
+        ]);
+
+        $credentials = $request->only('numero_documento', 'password');
+
+            if (Auth::attempt($credentials, $request->filled('remember'))) {
+            $request->session()->regenerate();
+            return redirect($this->redirectTo()); // <- cambio aquí
+        }
+
+        return back()->withErrors([
+            'numero_documento' => 'Credenciales incorrectas.',
+        ])->withInput($request->only('numero_documento'));
+    }
+
+    /**
+     * Cerrar sesión
+     */
+    public function logout(Request $request)
+    {
+        Auth::logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect('/login');
     }
 }

@@ -109,3 +109,5 @@ select*from paquete;
 select*from servicio;
 select*from detalle_servicio;
 select*from detalle_paquete;
+
+describe usuario
