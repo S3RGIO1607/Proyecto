@@ -2,8 +2,12 @@
 
 use Illuminate\Support\Facades\Route; 
 use App\Http\Controllers\UsuariosController;
+use App\Http\Controllers\ProductosController;
+use App\Http\Controllers\PaquetesController;
+use App\Http\Controllers\ServiciosController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\RegistroClienteController;
 
 // -----------------------
 // 🔹 Login
@@ -17,6 +21,11 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 // -----------------------
 // Usamos resource en minúscula para evitar problemas de nombres de rutas
 Route::resource('Usuarios', UsuariosController::class)->middleware('auth');
+Route::resource('Productos', ProductosController::class)->middleware('auth');
+Route::resource('Paquetes', PaquetesController::class)->middleware('auth');
+Route::resource('Servicios', ServiciosController::class)->middleware('auth');
+
+Route::post('/registro-cliente', [RegistroClienteController::class, 'store'])->name('registro-cliente.store');
 
 // -----------------------
 // 🔹 Rutas de tipo de usuario

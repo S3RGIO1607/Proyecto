@@ -17,7 +17,8 @@
     <section class="login-card">
       <div class="div_inicio">
         <h2>Regístrate</h2>
-        <form action="#" method="post">
+        <form action="{{ route('registro-cliente.store') }}" method="post">
+          @csrf
           <div class="input-group">
             <input type="number" name="numero_documento" required placeholder="Número de documento" min="10000" max="9999999999">
           </div>

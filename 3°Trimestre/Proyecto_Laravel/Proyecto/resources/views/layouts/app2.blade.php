@@ -24,10 +24,10 @@
             <ul class="f">
                 <li class="g"><a class="h" href="{{ route('perfil') }}">👤 Perfil</a></li>
                 <li class="g"><a class="h" href="{{ route('Usuarios.index') }}">👥 Usuarios</a></li>
-                <li class="g"><a class="h" href="#">🛒 Producto</a></li>
+                <li class="g"><a class="h" href="{{ route('Productos.index') }}">🛒 Producto</a></li>
                 <li class="g"><a class="h" href="#">📄 Alquiler</a></li>
-                <li class="g"><a class="h" href="#">📦 Paquetes</a></li>
-                <li class="g"><a class="h" href="#">📝 Servicios</a></li>
+                <li class="g"><a class="h" href="{{ route('Paquetes.index') }}">📦 Paquetes</a></li>
+                <li class="g"><a class="h" href="{{ route('Servicios.index') }}">📝 Servicios</a></li>
             </ul>
         </nav>
 
